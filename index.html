@@ -1,0 +1,1434 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Andromian — not an android. an linux.</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #0a0a0a;
+            --bg-mid: #141414;
+            --bg-light: #1e1e1e;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --bg-card-hover: rgba(255, 255, 255, 0.06);
+            --text-primary: #f5f5f5;
+            --text-secondary: #a0a0a0;
+            --text-muted: #666;
+            --border: rgba(255, 255, 255, 0.08);
+            --border-light: rgba(255, 255, 255, 0.15);
+            --accent: #e0e0e0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ===== BACKGROUND ===== */
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(ellipse at 70% 20%, #1a1a1a 0%, #0a0a0a 60%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* ===== CIRCUIT LINES ===== */
+        .circuit-lines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .circuit-line {
+            position: absolute;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 20px;
+        }
+
+        .circuit-line-1 {
+            top: -50px;
+            left: -50px;
+            width: 400px;
+            height: 300px;
+            border-radius: 0 0 80px 0;
+            border-top: none;
+            border-left: none;
+            animation: circuitPulse 4s ease-in-out infinite;
+        }
+
+        .circuit-line-2 {
+            top: -30px;
+            left: -30px;
+            width: 350px;
+            height: 260px;
+            border-radius: 0 0 70px 0;
+            border-top: none;
+            border-left: none;
+            animation: circuitPulse 4s ease-in-out infinite 0.5s;
+        }
+
+        .circuit-line-3 {
+            top: -10px;
+            left: -10px;
+            width: 300px;
+            height: 220px;
+            border-radius: 0 0 60px 0;
+            border-top: none;
+            border-left: none;
+            animation: circuitPulse 4s ease-in-out infinite 1s;
+        }
+
+        .circuit-line-4 {
+            bottom: 10%;
+            right: -100px;
+            width: 500px;
+            height: 200px;
+            border-radius: 80px 0 0 0;
+            border-bottom: none;
+            border-right: none;
+            animation: circuitPulse 5s ease-in-out infinite 1.5s;
+        }
+
+        .circuit-line-5 {
+            bottom: 12%;
+            right: -80px;
+            width: 450px;
+            height: 180px;
+            border-radius: 70px 0 0 0;
+            border-bottom: none;
+            border-right: none;
+            animation: circuitPulse 5s ease-in-out infinite 2s;
+        }
+
+        .circuit-line-6 {
+            bottom: 14%;
+            right: -60px;
+            width: 400px;
+            height: 160px;
+            border-radius: 60px 0 0 0;
+            border-bottom: none;
+            border-right: none;
+            animation: circuitPulse 5s ease-in-out infinite 2.5s;
+        }
+
+        @keyframes circuitPulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.8; }
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1rem 2rem;
+            background: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            animation: navSlide 0.6s ease-out;
+        }
+
+        @keyframes navSlide {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: var(--text-primary);
+            cursor: pointer;
+        }
+
+        .nav-logo-icon {
+            width: 32px;
+            height: 32px;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-logo:hover .nav-logo-icon {
+            transform: rotate(10deg) scale(1.1);
+        }
+
+        .nav-logo-text {
+            font-family: 'Caveat', cursive;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 0.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+            background: var(--bg-card);
+        }
+
+        .nav-links a.active {
+            color: var(--text-primary);
+        }
+
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 16px;
+            height: 1.5px;
+            background: var(--text-primary);
+            border-radius: 2px;
+        }
+
+        .nav-cta {
+            padding: 0.5rem 1.2rem;
+            background: var(--text-primary);
+            border: none;
+            border-radius: 8px;
+            color: var(--bg-dark);
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.15);
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 5px;
+        }
+
+        .menu-toggle span {
+            width: 22px;
+            height: 2px;
+            background: var(--text-primary);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        /* ===== PAGES ===== */
+        .page {
+            display: none;
+            min-height: 100vh;
+            padding-top: 70px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .page.active {
+            display: block;
+            animation: pageIn 0.5s ease-out;
+        }
+
+        @keyframes pageIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== HOME PAGE ===== */
+        .hero {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem 3rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            min-height: calc(100vh - 70px);
+        }
+
+        .hero-content {
+            animation: fadeUp 0.8s ease-out 0.3s both;
+        }
+
+        .hero-mascot {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .mascot-svg {
+            width: 60px;
+            height: 60px;
+            animation: mascotFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes mascotFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .hero-title-script {
+            font-family: 'Caveat', cursive;
+            font-size: 4.5rem;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+            margin-bottom: 0.3rem;
+            letter-spacing: 0.02em;
+        }
+
+        .hero-version {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin-bottom: 2rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-light);
+            display: inline-block;
+        }
+
+        .hero-version span {
+            font-style: italic;
+            font-weight: 400;
+        }
+
+        .hero-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin-bottom: 2rem;
+            max-width: 400px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            padding: 0.8rem 1.8rem;
+            background: var(--text-primary);
+            border: none;
+            border-radius: 10px;
+            color: var(--bg-dark);
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.12);
+        }
+
+        .btn-secondary {
+            padding: 0.8rem 1.8rem;
+            background: transparent;
+            border: 1px solid var(--border-light);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-weight: 500;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-card);
+            border-color: var(--text-muted);
+            transform: translateY(-3px);
+        }
+
+        /* Phone Mockup */
+        .hero-phone {
+            display: flex;
+            justify-content: center;
+            animation: fadeUp 0.8s ease-out 0.6s both;
+        }
+
+        .phone-mockup {
+            width: 260px;
+            height: 500px;
+            border: 2px solid var(--text-primary);
+            border-radius: 40px;
+            padding: 12px;
+            position: relative;
+            background: var(--bg-dark);
+            animation: phoneFloat 5s ease-in-out infinite;
+        }
+
+        @keyframes phoneFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(1deg); }
+        }
+
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            border: 1px solid var(--border-light);
+            border-radius: 30px;
+            overflow: hidden;
+            position: relative;
+            background: #000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .phone-camera {
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 2px solid var(--text-muted);
+            background: var(--bg-dark);
+        }
+
+        .phone-time {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 3.5rem;
+            font-weight: 300;
+            color: var(--text-primary);
+            letter-spacing: 2px;
+        }
+
+        .phone-date {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+            font-weight: 300;
+        }
+
+        .phone-circuit {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 120px;
+        }
+
+        .phone-circuit svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* ===== FEATURES ===== */
+        .features-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 2rem 6rem;
+        }
+
+        .section-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 2rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.8rem;
+            transition: all 0.4s ease;
+            animation: fadeUp 0.6s ease-out both;
+        }
+
+        .feature-card:nth-child(1) { animation-delay: 0.2s; }
+        .feature-card:nth-child(2) { animation-delay: 0.3s; }
+        .feature-card:nth-child(3) { animation-delay: 0.4s; }
+        .feature-card:nth-child(4) { animation-delay: 0.5s; }
+        .feature-card:nth-child(5) { animation-delay: 0.6s; }
+        .feature-card:nth-child(6) { animation-delay: 0.7s; }
+
+        .feature-card:hover {
+            background: var(--bg-card-hover);
+            transform: translateY(-4px);
+            border-color: var(--border-light);
+        }
+
+        .feature-card h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-card p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+
+        .feature-tag {
+            display: inline-block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            background: rgba(255,255,255,0.04);
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            margin-bottom: 0.8rem;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(25px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== DOWNLOADS PAGE ===== */
+        .page-header {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem 2rem;
+        }
+
+        .page-header .section-label {
+            margin-bottom: 1rem;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header p {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        .downloads-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 2rem 6rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+
+        .download-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.8rem;
+            transition: all 0.4s ease;
+            animation: fadeUp 0.6s ease-out both;
+        }
+
+        .download-card:nth-child(1) { animation-delay: 0.1s; }
+        .download-card:nth-child(2) { animation-delay: 0.2s; }
+        .download-card:nth-child(3) { animation-delay: 0.3s; }
+        .download-card:nth-child(4) { animation-delay: 0.4s; }
+
+        .download-card:hover {
+            background: var(--bg-card-hover);
+            transform: translateY(-4px);
+            border-color: var(--border-light);
+        }
+
+        .download-card h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+        }
+
+        .download-card .version {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .download-card .file-info {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.2rem;
+            flex-wrap: wrap;
+        }
+
+        .download-card .file-info span {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            background: rgba(255, 255, 255, 0.04);
+            padding: 0.3rem 0.7rem;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+        }
+
+        .download-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--text-primary);
+            border: none;
+            border-radius: 10px;
+            color: var(--bg-dark);
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .download-btn:hover {
+            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .download-btn.outline {
+            background: transparent;
+            border: 1px solid var(--border-light);
+            color: var(--text-primary);
+        }
+
+        .download-btn.outline:hover {
+            background: var(--bg-card-hover);
+        }
+
+        /* ===== RELEASES PAGE ===== */
+        .releases-list {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 2rem 6rem;
+        }
+
+        .release-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 1.5rem;
+            margin-bottom: 0.8rem;
+            transition: all 0.3s ease;
+            animation: fadeUp 0.5s ease-out both;
+        }
+
+        .release-item:nth-child(1) { animation-delay: 0.1s; }
+        .release-item:nth-child(2) { animation-delay: 0.15s; }
+        .release-item:nth-child(3) { animation-delay: 0.2s; }
+        .release-item:nth-child(4) { animation-delay: 0.25s; }
+        .release-item:nth-child(5) { animation-delay: 0.3s; }
+
+        .release-item:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--border-light);
+        }
+
+        .release-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.8rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .release-version {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+        }
+
+        .release-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+
+        .tag-latest {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            border: 1px solid var(--border-light);
+        }
+
+        .tag-stable {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+        }
+
+        .tag-beta {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-muted);
+            border: 1px dashed var(--border);
+        }
+
+        .release-date {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        .release-changes {
+            list-style: none;
+        }
+
+        .release-changes li {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            padding: 0.25rem 0;
+            padding-left: 1rem;
+            position: relative;
+        }
+
+        .release-changes li::before {
+            content: '›';
+            position: absolute;
+            left: 0;
+            color: var(--text-muted);
+            font-weight: bold;
+        }
+
+        /* ===== ABOUT PAGE ===== */
+        .about-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 2rem 6rem;
+        }
+
+        .about-hero-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 3rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            animation: fadeUp 0.6s ease-out 0.2s both;
+        }
+
+        .about-mascot {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            animation: mascotFloat 3s ease-in-out infinite;
+        }
+
+        .about-hero-card h2 {
+            font-family: 'Caveat', cursive;
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .about-hero-card .tagline {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-weight: 300;
+        }
+
+        .about-hero-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            max-width: 550px;
+            margin: 0 auto;
+        }
+
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            animation: fadeUp 0.6s ease-out both;
+        }
+
+        .stat-card:nth-child(1) { animation-delay: 0.3s; }
+        .stat-card:nth-child(2) { animation-delay: 0.4s; }
+        .stat-card:nth-child(3) { animation-delay: 0.5s; }
+        .stat-card:nth-child(4) { animation-delay: 0.6s; }
+
+        .stat-card:hover {
+            background: var(--bg-card-hover);
+            transform: translateY(-3px);
+        }
+
+        .stat-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            margin-top: 0.3rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .about-team {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            animation: fadeUp 0.6s ease-out 0.7s both;
+        }
+
+        .about-team h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.8rem;
+        }
+
+        .team-member {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.8rem;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .team-member:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .team-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: var(--bg-light);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .team-info .name {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .team-info .role {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            position: relative;
+            z-index: 1;
+            border-top: 1px solid var(--border);
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 900px) {
+            .hero {
+                grid-template-columns: 1fr;
+                text-align: center;
+                padding-top: 3rem;
+                min-height: auto;
+            }
+
+            .hero-content {
+                order: 2;
+            }
+
+            .hero-phone {
+                order: 1;
+            }
+
+            .hero-desc {
+                margin: 0 auto 2rem;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .hero-title-script {
+                font-size: 3.5rem;
+            }
+
+            .phone-mockup {
+                width: 220px;
+                height: 420px;
+            }
+
+            .phone-time {
+                font-size: 2.8rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(10, 10, 10, 0.95);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                padding: 1rem;
+                border-bottom: 1px solid var(--border);
+            }
+
+            .nav-links.open {
+                display: flex;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .nav-cta {
+                display: none;
+            }
+
+            .hero-title-script {
+                font-size: 3rem;
+            }
+
+            .page-header h1 {
+                font-size: 2rem;
+            }
+
+            .features-grid, .downloads-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .about-hero-card {
+                padding: 2rem;
+            }
+
+            .about-hero-card h2 {
+                font-size: 2.2rem;
+            }
+        }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--bg-light);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-gradient"></div>
+
+    <!-- Circuit Lines -->
+    <div class="circuit-lines">
+        <div class="circuit-line circuit-line-1"></div>
+        <div class="circuit-line circuit-line-2"></div>
+        <div class="circuit-line circuit-line-3"></div>
+        <div class="circuit-line circuit-line-4"></div>
+        <div class="circuit-line circuit-line-5"></div>
+        <div class="circuit-line circuit-line-6"></div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-content">
+            <a class="nav-logo" onclick="showPage('home')">
+                <svg class="nav-logo-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Android head with devil horns -->
+                    <path d="M20 28 C20 18, 28 10, 32 10 C36 10, 44 18, 44 28" fill="white" opacity="0.9"/>
+                    <!-- Horns -->
+                    <path d="M22 14 L16 4 L26 10 Z" fill="white"/>
+                    <path d="M42 14 L48 4 L38 10 Z" fill="white"/>
+                    <!-- Eyes -->
+                    <circle cx="27" cy="22" r="2.5" fill="#0a0a0a"/>
+                    <circle cx="37" cy="22" r="2.5" fill="#0a0a0a"/>
+                    <!-- Body -->
+                    <rect x="20" y="30" width="24" height="20" rx="4" fill="white" opacity="0.7"/>
+                </svg>
+                <span class="nav-logo-text">andromian</span>
+            </a>
+
+            <ul class="nav-links" id="navLinks">
+                <li><a onclick="showPage('home')" class="active" data-page="home">home</a></li>
+                <li><a onclick="showPage('downloads')" data-page="downloads">downloads</a></li>
+                <li><a onclick="showPage('releases')" data-page="releases">releases</a></li>
+                <li><a onclick="showPage('about')" data-page="about">about</a></li>
+            </ul>
+
+            <a class="nav-cta" onclick="showPage('downloads')">download</a>
+
+            <button class="menu-toggle" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ===== HOME PAGE ===== -->
+    <div class="page active" id="page-home">
+        <section class="hero">
+            <div class="hero-content">
+                <div class="hero-mascot">
+                    <svg class="mascot-svg" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M20 28 C20 18, 28 10, 32 10 C36 10, 44 18, 44 28" fill="white" opacity="0.9"/>
+                        <path d="M22 14 L16 4 L26 10 Z" fill="white"/>
+                        <path d="M42 14 L48 4 L38 10 Z" fill="white"/>
+                        <circle cx="27" cy="22" r="2.5" fill="#0a0a0a"/>
+                        <circle cx="37" cy="22" r="2.5" fill="#0a0a0a"/>
+                        <rect x="20" y="30" width="24" height="20" rx="4" fill="white" opacity="0.7"/>
+                    </svg>
+                </div>
+                <h1 class="hero-title-script">andromian</h1>
+                <p class="hero-subtitle">not an android. an linux.</p>
+                <div class="hero-version">V1.0 <span>test comming soon</span></div>
+                <p class="hero-desc">
+                    Uma distribuição Linux baseada em Debian, construída para ser rápida, 
+                    minimalista e elegante. Sem excessos, sem compromissos.
+                </p>
+                <div class="hero-buttons">
+                    <a class="btn-primary" onclick="showPage('downloads')">
+                        ↓ download
+                    </a>
+                    <a class="btn-secondary" onclick="showPage('about')">
+                        → sobre
+                    </a>
+                </div>
+            </div>
+
+            <div class="hero-phone">
+                <div class="phone-mockup">
+                    <div class="phone-screen">
+                        <div class="phone-camera"></div>
+                        <div class="phone-time" id="phoneTime">05:55</div>
+                        <div class="phone-date" id="phoneDate">october 18</div>
+                        <div class="phone-circuit">
+                            <svg viewBox="0 0 260 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M0 80 Q60 80 80 50 Q100 20 160 20 Q200 20 220 40 Q240 60 260 60" 
+                                      stroke="white" stroke-width="1" opacity="0.15" fill="none"/>
+                                <path d="M0 90 Q50 90 70 60 Q90 30 150 30 Q190 30 210 50 Q230 70 260 70" 
+                                      stroke="white" stroke-width="1" opacity="0.1" fill="none"/>
+                                <path d="M0 100 Q40 100 60 70 Q80 40 140 40 Q180 40 200 60 Q220 80 260 80" 
+                                      stroke="white" stroke-width="1" opacity="0.07" fill="none"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="features-section">
+            <div class="section-label">// features</div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-tag">debian-based</div>
+                    <h3>Base Debian Stable</h3>
+                    <p>Construído sobre Debian para máxima estabilidade e compatibilidade com pacotes .deb.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-tag">minimal</div>
+                    <h3>Design Minimalista</h3>
+                    <p>Interface clean em preto e branco. Sem neon, sem distrações. Apenas o essencial.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-tag">fast</div>
+                    <h3>Boot Rápido</h3>
+                    <p>Inicialização em menos de 6 segundos. Otimizado para hardware moderno e antigo.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-tag">secure</div>
+                    <h3>Segurança Nativa</h3>
+                    <p>AppArmor, firewall integrado e atualizações automáticas de segurança.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-tag">mobile</div>
+                    <h3>Versão Mobile</h3>
+                    <p>Interface adaptada para dispositivos touch. O mesmo Linux no seu bolso.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-tag">open-source</div>
+                    <h3>100% Open Source</h3>
+                    <p>Código aberto, transparente e auditável. Contribua no nosso repositório.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ===== DOWNLOADS PAGE ===== -->
+    <div class="page" id="page-downloads">
+        <div class="page-header">
+            <div class="section-label">// downloads</div>
+            <h1>Baixe o Andromian</h1>
+            <p>Escolha sua arquitetura e comece a usar.</p>
+        </div>
+
+        <div class="downloads-grid">
+            <div class="download-card">
+                <h3>Andromian Desktop</h3>
+                <div class="version">v1.0-test — ISO</div>
+                <div class="file-info">
+                    <span>2.1 GB</span>
+                    <span>x86_64</span>
+                    <span>Debian 12</span>
+                </div>
+                <a class="download-btn" href="#">↓ download iso</a>
+            </div>
+
+            <div class="download-card">
+                <h3>Andromian Lite</h3>
+                <div class="version">v1.0-test — ISO</div>
+                <div class="file-info">
+                    <span>1.2 GB</span>
+                    <span>x86_64</span>
+                    <span>Debian 12</span>
+                </div>
+                <a class="download-btn" href="#">↓ download iso</a>
+            </div>
+
+            <div class="download-card">
+                <h3>Andromian Mobile</h3>
+                <div class="version">v1.0-test — IMG</div>
+                <div class="file-info">
+                    <span>1.8 GB</span>
+                    <span>ARM64</span>
+                    <span>Debian 12</span>
+                </div>
+                <a class="download-btn" href="#">↓ download img</a>
+            </div>
+
+            <div class="download-card">
+                <h3>Andromian Server</h3>
+                <div class="version">v1.0-test — ISO</div>
+                <div class="file-info">
+                    <span>800 MB</span>
+                    <span>x86_64</span>
+                    <span>Debian 12</span>
+                </div>
+                <a class="download-btn outline" href="#">↓ download iso</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== RELEASES PAGE ===== -->
+    <div class="page" id="page-releases">
+        <div class="page-header">
+            <div class="section-label">// releases</div>
+            <h1>Histórico de versões</h1>
+            <p>Changelog completo do Andromian.</p>
+        </div>
+
+        <div class="releases-list">
+            <div class="release-item">
+                <div class="release-header">
+                    <div class="release-version">
+                        v1.0-test
+                        <span class="release-tag tag-latest">LATEST</span>
+                    </div>
+                    <div class="release-date">18 out 2026</div>
+                </div>
+                <ul class="release-changes">
+                    <li>Primeiro release público de teste</li>
+                    <li>Base Debian 12 (Bookworm)</li>
+                    <li>Interface minimalista preto e branco</li>
+                    <li>Suporte a Wayland e X11</li>
+                    <li>Kernel 6.1 LTS customizado</li>
+                </ul>
+            </div>
+
+            <div class="release-item">
+                <div class="release-header">
+                    <div class="release-version">
+                        v0.9-alpha
+                        <span class="release-tag tag-beta">ALPHA</span>
+                    </div>
+                    <div class="release-date">01 out 2026</div>
+                </div>
+                <ul class="release-changes">
+                    <li>Build inicial para testes internos</li>
+                    <li>Installer gráfico funcional</li>
+                    <li>Tema Andromian Dark</li>
+                </ul>
+            </div>
+
+            <div class="release-item">
+                <div class="release-header">
+                    <div class="release-version">
+                        v0.8-dev
+                        <span class="release-tag tag-beta">DEV</span>
+                    </div>
+                    <div class="release-date">15 set 2026</div>
+                </div>
+                <ul class="release-changes">
+                    <li>Setup do repositório Debian</li>
+                    <li>Configuração do kernel custom</li>
+                    <li>Primeiro boot funcional</li>
+                </ul>
+            </div>
+
+            <div class="release-item">
+                <div class="release-header">
+                    <div class="release-version">
+                        v0.1-init
+                        <span class="release-tag tag-beta">INIT</span>
+                    </div>
+                    <div class="release-date">01 set 2026</div>
+                </div>
+                <ul class="release-changes">
+                    <li>Criação do projeto Andromian</li>
+                    <li>Definição da identidade visual</li>
+                    <li>Setup da infraestrutura</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== ABOUT PAGE ===== -->
+    <div class="page" id="page-about">
+        <div class="page-header">
+            <div class="section-label">// about</div>
+            <h1>Sobre o Andromian</h1>
+            <p>not an android. an linux.</p>
+        </div>
+
+        <div class="about-content">
+            <div class="about-hero-card">
+                <svg class="about-mascot" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20 28 C20 18, 28 10, 32 10 C36 10, 44 18, 44 28" fill="white" opacity="0.9"/>
+                    <path d="M22 14 L16 4 L26 10 Z" fill="white"/>
+                    <path d="M42 14 L48 4 L38 10 Z" fill="white"/>
+                    <circle cx="27" cy="22" r="2.5" fill="#0a0a0a"/>
+                    <circle cx="37" cy="22" r="2.5" fill="#0a0a0a"/>
+                    <rect x="20" y="30" width="24" height="20" rx="4" fill="white" opacity="0.7"/>
+                </svg>
+                <h2>andromian</h2>
+                <p class="tagline">not an android. an linux.</p>
+                <p>
+                    O Andromian nasceu da ideia de criar um Linux que fosse tão simples 
+                    e direto quanto um Android, mas com todo o poder e liberdade do Debian. 
+                    Minimalista, rápido e sem frescura.
+                </p>
+            </div>
+
+            <div class="about-stats">
+                <div class="stat-card">
+                    <div class="stat-number">v1.0</div>
+                    <div class="stat-label">versão atual</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">Debian</div>
+                    <div class="stat-label">base system</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">6s</div>
+                    <div class="stat-label">boot time</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">open source</div>
+                </div>
+            </div>
+
+            <div class="about-team">
+                <h3>equipe</h3>
+                <div class="team-grid">
+                    <div class="team-member">
+                        <div class="team-avatar">P</div>
+                        <div class="team-info">
+                            <div class="name">Paulo</div>
+                            <div class="role">lead dev</div>
+                        </div>
+                    </div>
+                    <div class="team-member">
+                        <div class="team-avatar">A</div>
+                        <div class="team-info">
+                            <div class="name">Ana</div>
+                            <div class="role">designer</div>
+                        </div>
+                    </div>
+                    <div class="team-member">
+                        <div class="team-avatar">L</div>
+                        <div class="team-info">
+                            <div class="name">Lucas</div>
+                            <div class="role">kernel dev</div>
+                        </div>
+                    </div>
+                    <div class="team-member">
+                        <div class="team-avatar">M</div>
+                        <div class="team-info">
+                            <div class="name">Marina</div>
+                            <div class="role">community</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© 2026 andromian project — not an android. an linux.</p>
+    </footer>
+
+    <script>
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+
+            document.getElementById('page-' + pageId).classList.add('active');
+
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.classList.remove('active');
+                if (link.dataset.page === pageId) {
+                    link.classList.add('active');
+                }
+            });
+
+            document.getElementById('navLinks').classList.remove('open');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleMenu() {
+            document.getElementById('navLinks').classList.toggle('open');
+        }
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.navbar')) {
+                document.getElementById('navLinks').classList.remove('open');
+            }
+        });
+
+        // Atualiza relógio do phone mockup
+        function updatePhoneClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            document.getElementById('phoneTime').textContent = hours + ':' + minutes;
+
+            const months = ['january','february','march','april','may','june',
+                           'july','august','september','october','november','december'];
+            document.getElementById('phoneDate').textContent = 
+                months[now.getMonth()] + ' ' + now.getDate();
+        }
+
+        updatePhoneClock();
+        setInterval(updatePhoneClock, 1000);
+    </script>
+</body>
+</html>
